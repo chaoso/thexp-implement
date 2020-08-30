@@ -47,7 +47,7 @@ Only use basic cross-entropy loss to optimize the model, and the data use four c
 
 ### Noisy Label
  
- [ ] MentorNet: Learning Data-Driven Curriculum for Very Deep Neural Networks, https://arxiv.org/abs/1712.05055
+ - [ ] MentorNet: Learning Data-Driven Curriculum for Very Deep Neural Networks, https://arxiv.org/abs/1712.05055
  - Probabilistic End-to-end Noise Correction for Learning with Noisy Labels, https://arxiv.org/abs/1903.07788
- [ ] Beyond Synthetic Noise: Deep Learning on Controlled Noisy Labels, https://arxiv.org/abs/1911.09781
+ - [ ] Beyond Synthetic Noise: Deep Learning on Controlled Noisy Labels, https://arxiv.org/abs/1911.09781
  
