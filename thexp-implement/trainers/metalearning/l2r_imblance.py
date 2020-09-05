@@ -1,3 +1,9 @@
+"""
+reimplement of 《Learning to Reweight Examples for Robust Deep Learning》(L2R)，imblance part
+    https://arxiv.org/abs/1803.09050
+
+train 25 epoch is enough to see the result(can achieve 93%-95% accuracy), where basic methods can't train anything(about 50%)
+"""
 if __name__ == '__main__':
     import os
     import sys
@@ -43,7 +49,7 @@ class L2RTrainer(datasets.MnistImblanceDataset,
     def train_batch(self, eidx, idx, global_step, batch_data, params: MnistImblanceParams, device: torch.device):
         meter = Meter()
 
-        (images, labels), (val_images, val_labels) = batch_data
+        (images, labels), (val_images, val_labels) = batch_data  # type:torch.Tensor
 
         metanet = MetaLeNet(1).to(device)
         metanet.load_state_dict(self.model.state_dict())
@@ -54,7 +60,7 @@ class L2RTrainer(datasets.MnistImblanceDataset,
         metanet.zero_grad()
 
         grads = torch.autograd.grad(l_f_meta, (metanet.params()), create_graph=True)
-        metanet.update_params(params.optim.lr, grads=grads)
+        metanet.update_params(params.optim.args.lr, grads=grads)
 
         y_g_hat = metanet(val_images).squeeze()
         v_meta_loss = F.binary_cross_entropy_with_logits(y_g_hat, val_labels)
@@ -81,9 +87,10 @@ class L2RTrainer(datasets.MnistImblanceDataset,
             meter.grad_0 = grad_eps[labels == 0].mean() * 1e5
             meter.grad_0_max = grad_eps[labels == 0].max() * 1e5
             meter.grad_0_min = grad_eps[labels == 0].min() * 1e5
-        meter.grad_1 = grad_eps[labels == 1].mean() * 1e5
-        meter.grad_1_max = grad_eps[labels == 1].max() * 1e5
-        meter.grad_1_min = grad_eps[labels == 1].min() * 1e5
+        if (labels == 1).sum() > 0:
+            meter.grad_1 = grad_eps[labels == 1].mean() * 1e5
+            meter.grad_1_max = grad_eps[labels == 1].max() * 1e5
+            meter.grad_1_min = grad_eps[labels == 1].min() * 1e5
 
         return meter
 
@@ -96,8 +103,10 @@ class L2RTrainer(datasets.MnistImblanceDataset,
 
         return meter
 
+
 if __name__ == '__main__':
     params = MnistImblanceParams()
+    params.device = 'cpu'
     params.from_args()
     trainer = L2RTrainer(params)
 
