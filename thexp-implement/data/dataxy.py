@@ -1,9 +1,10 @@
 from typing import Dict, Callable, Tuple
 
+import numpy as np
 from PIL import Image
 from thexp import globs
-from thexp.decorators import regist_func
 from thexp.base_classes import llist
+from thexp.decorators import regist_func
 from torchvision.datasets.cifar import CIFAR10, CIFAR100
 from torchvision.datasets.mnist import MNIST, FashionMNIST
 from torchvision.datasets.svhn import SVHN
@@ -46,7 +47,7 @@ def svhn(train=True):
 @regist_func(datasets)
 def mnist(train=True):
     dataset = MNIST(root=root, train=train)
-    xs = llist(Image.fromarray(np.stack([img.numpy()] * 3, axis=2)) for img in dataset.data)
+    xs = llist(Image.fromarray(img.numpy(), mode='L') for img in dataset.data)
     ys = llist(int(i) for i in dataset.targets)
 
     return xs, ys
@@ -55,7 +56,7 @@ def mnist(train=True):
 @regist_func(datasets)
 def fashionmnist(train=True):
     dataset = FashionMNIST(root=root, train=train)
-    xs = llist(Image.fromarray(np.stack([img.numpy()] * 3, axis=2)) for img in dataset.data)
+    xs = llist(Image.fromarray(img.numpy(), mode='L') for img in dataset.data)
     ys = llist(int(i) for i in dataset.targets)
 
     return xs, ys

@@ -17,9 +17,9 @@ normal_mean = (0.5, 0.5, 0.5)
 normal_std = (0.5, 0.5, 0.5)
 
 norm_val = {
-    'cifar10': dict(mean=cifar10_mean, std=cifar10_std),
-    'cifar100': dict(mean=cifar100_mean, std=cifar100_std),
-    'mnist': dict(mean=mnist_mean, std=mnist_std),
-    'default': dict(mean=normal_mean, std=normal_std),
-    'none': dict(mean=None, std=None),
+    'cifar10': [cifar10_mean, cifar10_std],
+    'cifar100': [cifar100_mean, cifar100_std],
+    'mnist': [mnist_mean, mnist_std],
+    'default': [normal_mean, normal_std],
+    'none': [None, None],
 }
