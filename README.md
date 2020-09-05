@@ -29,6 +29,7 @@ python fixmatch.py
 ## implementation list
 
 Here list the paper reimplemented in this repo.
+
 ### Supervised baseline
 including WRN-28-2, WRN-28-10, and Resnet{20, 32, 44, 50, 56},
 
@@ -36,8 +37,14 @@ Only use basic cross-entropy loss to optimize the model, and the data use four c
 
 > `weak` means random horizontal flip and random crop, and `strong` means `weak` + `RandAugment` , please see the code for details.
 
+
+
+For most case, Strong or Strong+mixup is the best 
+
 > [1] RandAugment: Practical automated data augmentation
   with a reduced search space, https://arxiv.org/pdf/1909.13719.pdf
+>
+> [2] mixup: Beyond Empirical Risk Minimization, https://arxiv.org/abs/1710.09412 
 
 ### Semi-Supervised
  - Interpolation Consistency Training for Semi-Supervised Learning, https://arxiv.org/abs/1903.03825
@@ -47,7 +54,13 @@ Only use basic cross-entropy loss to optimize the model, and the data use four c
 
 ### Noisy Label
  
- - [ ] MentorNet: Learning Data-Driven Curriculum for Very Deep Neural Networks, https://arxiv.org/abs/1712.05055
- - Probabilistic End-to-end Noise Correction for Learning with Noisy Labels, https://arxiv.org/abs/1903.07788
- - [ ] Beyond Synthetic Noise: Deep Learning on Controlled Noisy Labels, https://arxiv.org/abs/1911.09781
+ - [ ] Todo: MentorNet: Learning Data-Driven Curriculum for Very Deep Neural Networks, https://arxiv.org/abs/1712.05055
+ - Probabilistic End-to-end Noise Correction for Learning with Noisy Labels(Pencil), https://arxiv.org/abs/1903.07788
+ - [ ] Todo: Beyond Synthetic Noise: Deep Learning on Controlled Noisy Labels, https://arxiv.org/abs/1911.09781
+ 
+### meta-learning
+
+ - Learning to Reweight Examples for Robust Deep Learning(L2R), https://arxiv.org/abs/1803.09050
+ - Distilling Effective Supervision from Severe Label Noise(IEG), https://arxiv.org/abs/1910.00701
+ 
  
