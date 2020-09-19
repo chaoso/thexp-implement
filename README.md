@@ -47,10 +47,25 @@ For most case, Strong or Strong+mixup is the best
 > [2] mixup: Beyond Empirical Risk Minimization, https://arxiv.org/abs/1710.09412 
 
 ### Semi-Supervised
- - Interpolation Consistency Training for Semi-Supervised Learning, https://arxiv.org/abs/1903.03825
- - MixMatch: A Holistic Approach to Semi-Supervised Learning, https://arxiv.org/abs/1905.02249
- - FixMatch: Simplifying Semi-Supervised Learning with Consistency and Conﬁdence, https://arxiv.org/abs/2001.07685
+#### Interpolation Consistency Training for Semi-Supervised Learning
+ [[paper]](https://arxiv.org/abs/1903.03825)
 
+```
+python3 trainers/semisupervised/ict.py
+```
+ 
+#### MixMatch: A Holistic Approach to Semi-Supervised Learning
+ [[paper]](https://arxiv.org/abs/1905.02249)
+
+```
+python3 trainers/semisupervised/mixmatch.py
+```
+
+#### FixMatch: Simplifying Semi-Supervised Learning with Consistency and Conﬁdence
+ [[paper]](https://arxiv.org/abs/2001.07685)
+```
+python3 trainers/semisupervised/fixmatch.py
+```
 
 ### Noisy Label
 #### MentorNet: Learning Data-Driven Curriculum for Very Deep Neural Networks
