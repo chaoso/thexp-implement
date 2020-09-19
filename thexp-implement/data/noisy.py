@@ -32,9 +32,9 @@ def symmetric_noisy(train_y, noisy_ratio, n_classes=None) -> np.ndarray:
     _noisys = np.random.randint(0, n_classes, noisy_ids.shape[0])
     _mask = np.where(_noisys == noisy_y[noisy_ids])
 
-    while _mask[0].shape[0] != 0:
-        _noisys[_mask] = np.random.randint(0, 10, _mask[0].shape[0])
-        _mask = np.where(_noisys == noisy_y[noisy_ids])
+    # while _mask[0].shape[0] != 0:
+    #     _noisys[_mask] = np.random.randint(0, 10, _mask[0].shape[0])
+    #     _mask = np.where(_noisys == noisy_y[noisy_ids])
 
     noisy_y[noisy_ids] = _noisys
 
