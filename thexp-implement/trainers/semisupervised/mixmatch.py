@@ -41,7 +41,7 @@ class MixMatchTrainer(callbacks.BaseCBMixin,
                       datasets.MixMatchDatasetMixin,
                       models.BaseModelMixin,
                       acc.ClassifyAccMixin,
-                      losses.CELoss, losses.MixMatchMixin,
+                      losses.CELoss, losses.MixMatchLoss,
                       Trainer):
 
     def train_batch(self, eidx, idx, global_step, batch_data, params: MixMatchParams, device: torch.device):
@@ -54,10 +54,10 @@ class MixMatchTrainer(callbacks.BaseCBMixin,
         targets = tricks.onehot(ys, params.n_classes)
 
         un_logits = self.to_logits(torch.cat(un_imgs))
-        un_targets = self.label_guesses(*un_logits.chunk(params.K))
-        un_targets = self.sharpen(un_targets, params.T)
+        un_targets = self.label_guesses_(*un_logits.chunk(params.K))
+        un_targets = self.sharpen_(un_targets, params.T)
 
-        mixed_input, mixed_target = self.mixmatch_up(xs, un_imgs, targets, un_targets)
+        mixed_input, mixed_target = self.mixmatch_up_(xs, un_imgs, targets, un_targets)
 
         sup_mixed_target, unsup_mixed_target = mixed_target.split_with_sizes(
             [xs.shape[0], mixed_input.shape[0] - xs.shape[0]])
@@ -65,13 +65,13 @@ class MixMatchTrainer(callbacks.BaseCBMixin,
         sup_mixed_logits, unsup_mixed_logits = self.to_logits(mixed_input).split_with_sizes(
             [xs.shape[0], mixed_input.shape[0] - xs.shape[0]])
 
-        meter.all_loss = meter.all_loss + self.loss_ce_with_targets_(sup_mixed_logits, sup_mixed_target,
-                                                                     meter=meter, name='Lx')
-        meter.all_loss = meter.all_loss + self.loss_ce_with_targets_(unsup_mixed_logits, unsup_mixed_target,
-                                                                     meter=meter, name='Lu') * params.w_sche(eidx)
+        meter.Lall = meter.Lall + self.loss_ce_with_targets_(sup_mixed_logits, sup_mixed_target,
+                                                             meter=meter, name='Lx')
+        meter.Lall = meter.Lall + self.loss_ce_with_targets_(unsup_mixed_logits, unsup_mixed_target,
+                                                             meter=meter, name='Lu') * params.w_sche(eidx)
 
         self.optim.zero_grad()
-        meter.all_loss.backward()
+        meter.Lall.backward()
         self.optim.step()
 
         self.acc_precise_(self.predict(xs).argmax(dim=1), ys, meter)
