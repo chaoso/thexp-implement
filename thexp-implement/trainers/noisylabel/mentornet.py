@@ -44,7 +44,7 @@ class MentorNetParams(NoisyParams):
         self.epoch_step = self.SCHE.Linear(end=100, right=self.epoch)
 
 
-class MentorTrainer(datasets.SyntheticNoisyMixin,
+class MentorTrainer(datasets.IEGSyntheticNoisyMixin,
                     models.BaseModelMixin,
                     acc.ClassifyAccMixin,
                     losses.CELoss, losses.MentorLoss,

@@ -47,7 +47,7 @@ class PencilParams(NoisyParams):
         )
 
 
-class PencilTrainer(datasets.SyntheticNoisyMixin,
+class PencilTrainer(datasets.IEGSyntheticNoisyMixin,
                     models.BaseModelMixin,
                     acc.ClassifyAccMixin,
                     losses.CELoss, losses.PencilLoss,
