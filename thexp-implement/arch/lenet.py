@@ -50,3 +50,8 @@ class LeNet(nn.Module):
 
     def softmax(self, logits):
         return F.softmax(logits, dim=1)
+
+
+if __name__ == '__main__':
+    pass
+    # LeNet().named_parameters()

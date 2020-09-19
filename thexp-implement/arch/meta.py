@@ -5,7 +5,7 @@ A small framework to implement meta-learning, mainly for hold gradient of the
 from typing import Union, Optional, Callable, Dict
 from torch.optim.optimizer import Optimizer
 from torch.optim import SGD
-
+from itertools import chain
 import torch
 from torch import nn, Tensor
 from typing import List, Union, Any, Iterable
@@ -45,12 +45,14 @@ class MetaModule(nn.Module):
         set params' value with order
         """
         for piter, param in zip(MetaModule._name_params(self, with_module=True),
-                                params):  # type: str,nn.Parameter,nn.Module
-            name, val, mmodule = piter
+                                params):  # type: Any,torch.Tensor
+            name, val, mmodule = piter  # type: str,nn.Parameter,nn.Module
             if param is None:
                 continue
             if not isinstance(param, torch.autograd.Variable):
                 param = torch.autograd.Variable(param, requires_grad=True)
+            val.detach()
+            # mmodule.register_buffer(name, param)
             setattr(mmodule, name, param)
 
     def update_params(self, lr: float, grads: Iterable[torch.Tensor]):
@@ -106,7 +108,10 @@ class MetaModule(nn.Module):
             if mmodule == module:
                 continue
             for name, val, mmmodule in MetaModule._name_params(mmodule, with_module=True, prefix=prefix):
-                memo.add('.'.join([prefix, mname, name]).lstrip('.'))
+                whole_name = '.'.join([prefix, mname, name]).lstrip('.')
+                memo.add(whole_name)
+
+                # the name is reletive to module, cause when set or update params, setattr(module, name, val) is called.
                 if with_module:
                     yield name, val, mmmodule
                 else:
@@ -115,7 +120,7 @@ class MetaModule(nn.Module):
         # In MetaModule, there will be no Paramter, all Paramters will be cast to `autograd.Variable` and be registed in
         # buffers, so we only yield `named_buffers` without `named_parameters`.
 
-        for name, val in module.named_buffers(recurse=False):
+        for name, val in chain(module.named_buffers(recurse=False)):
             if name in memo:
                 continue
 
@@ -136,6 +141,19 @@ class MetaModule(nn.Module):
                 yield pure_name, val, module
             else:
                 yield pure_name, val
+
+    @staticmethod
+    def _params(module: nn.Module):
+        """yield all params with raw name(without module prefix)"""
+        for _, val in MetaModule._name_params(module):
+            yield val
+
+    def zero_grad(self) -> None:
+        super(MetaModule, self).zero_grad()
+        for name, p in self.named_buffers():
+            if p.grad is not None:
+                p.grad.detach_()
+                p.grad.zero_()
 
 
 class MetaSGD(SGD):
