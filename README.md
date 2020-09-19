@@ -53,14 +53,43 @@ For most case, Strong or Strong+mixup is the best
 
 
 ### Noisy Label
+#### MentorNet: Learning Data-Driven Curriculum for Very Deep Neural Networks
+
+[[paper]](https://arxiv.org/abs/1712.05055)
+ - [ ] Todo 
  
- - [ ] Todo: MentorNet: Learning Data-Driven Curriculum for Very Deep Neural Networks, https://arxiv.org/abs/1712.05055
- - Probabilistic End-to-end Noise Correction for Learning with Noisy Labels(Pencil), https://arxiv.org/abs/1903.07788
- - [ ] Todo: Beyond Synthetic Noise: Deep Learning on Controlled Noisy Labels, https://arxiv.org/abs/1911.09781
+ 
+#### Probabilistic End-to-end Noise Correction for Learning with Noisy Labels(Pencil)
+[[paper]](https://arxiv.org/abs/1903.07788) 
+
+```
+python3 trainers/noisylabel/pencil.py
+```
+ 
+#### Beyond Synthetic Noise: Deep Learning on Controlled Noisy Labels (MentorMix)
+[[paper]](https://arxiv.org/abs/1911.09781)
+
+ - [ ] Todo
  
 ### meta-learning
 
- - Learning to Reweight Examples for Robust Deep Learning(L2R), https://arxiv.org/abs/1803.09050
- - Distilling Effective Supervision from Severe Label Noise(IEG), https://arxiv.org/abs/1910.00701
+#### Learning to Reweight Examples for Robust Deep Learning (L2R)
+[[paper]](https://arxiv.org/abs/1803.09050)
+
+reproduce the result on class imblance, and can't reach the result on noisy label experiment.
+
+```
+python3 trainers/metalearning/l2r_imblance.py
+```
+
+#### Distilling Effective Supervision from Severe Label Noise (IEG)
+
+> Another name —— IEG: Robust neural net training with severe label noises 
+
+ [[paper]](https://arxiv.org/abs/1910.00701)
  
+use wideresnet-28-2, and reproduce the result on cifar10 with 60%, 80% synthetic noisy.(I can't run wideresnet-28-10 on my single GPU.) 
  
+```
+python3 trainers/metalearning/ieg_noisy_label.py
+```
