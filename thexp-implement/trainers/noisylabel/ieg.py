@@ -14,9 +14,7 @@ if __name__ == '__main__':
     chdir = os.path.dirname(chdir)
     chdir = os.path.dirname(chdir)
     sys.path.append(chdir)
-from gpu_memory_log import gpu_memory_log
-import inspect
-from thextra import MemTracker
+
 from arch.meta import MetaWideResNet, MetaSGD
 import torch
 from torch import autograd
@@ -52,7 +50,7 @@ class IEGParams(NoisyParams):
         self.ema_alpha = 0.999
         self.consistency_factor = 20
 
-        self.widen_factor = 2 # 10 needs multi-gpu
+        self.widen_factor = 2  # 10 needs multi-gpu
 
     def initial(self):
         super(IEGParams, self).initial()
