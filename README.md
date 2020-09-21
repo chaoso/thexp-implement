@@ -1,12 +1,13 @@
 # Thexp-implement
 
-Reimplement of some papers I interested. All implementations are based on my another pytorch framework [thexp](https://github.com/sailist/thexp), and  are elegant and simple as I can.
+Reimplement of some papers I interested. All implementations are based on my another pytorch framework [thexp](https://github.com/sailist/thexp), and are as elegant and simple as I can.
 
 ## How to run
 ```
 git clone https://github.com/sailist/thexp-implement
 ```
 
+You need to instal my another library [thexp](https://github.com/sailist/thexp).
 ```
 pip install thexp
 ```
@@ -26,7 +27,7 @@ python fixmatch.py
 
 > the working directory will be changed automaticaly, so you just need to run it.
 
-## implementation list
+## Implementation list
 
 Here list the paper reimplemented in this repo.
 
@@ -86,7 +87,7 @@ python3 trainers/noisylabel/pencil.py
 
  - [ ] Todo
  
-### meta-learning
+### Meta-learning
 
 #### Learning to Reweight Examples for Robust Deep Learning (L2R)
 [[paper]](https://arxiv.org/abs/1803.09050)
@@ -103,8 +104,17 @@ python3 trainers/metalearning/l2r_imblance.py
 
  [[paper]](https://arxiv.org/abs/1910.00701)
  
-use wideresnet-28-2, and reproduce the result on cifar10 with 60%, 80% synthetic noisy.(I can't run wideresnet-28-10 on my single GPU.) 
+use wideresnet-28-2, and reproduce the result on cifar10 with 40%, 80% synthetic noisy.(I can't run wideresnet-28-10 on my single GPU.) 
  
+ **cifar10** 
+ 
+ |noisy ratio|results|
+ |---|---|
+ |0.4|95.01|
+ |0.8|94.81|
+ 
+> reach cifar100 results may need training larger model(like WRN28-10 or others) 
+
 ```
-python3 trainers/metalearning/ieg_noisy_label.py
+python3 trainers/metalearning/ieg_noisy_label.py --noisy_ratio=0.8
 ```
